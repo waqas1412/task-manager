@@ -2,659 +2,331 @@
 
 <div align="center">
 
-![Task Manager](https://img.shields.io/badge/Task-Manager-blue?style=for-the-badge&logo=java&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-25%20LTS-orange?style=for-the-badge&logo=openjdk&logoColor=white)
-![Maven](https://img.shields.io/badge/Maven-3.6+-red?style=for-the-badge&logo=apache-maven&logoColor=white)
-![JUnit](https://img.shields.io/badge/JUnit-5-green?style=for-the-badge&logo=junit5&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-3.6+-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
+![JUnit](https://img.shields.io/badge/JUnit-5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
-**A modern command-line task management application built with Java 25 LTS, demonstrating best practices in software architecture, design patterns, and clean code principles.**
+**A modern CLI task management application showcasing Java 25 LTS features, clean architecture, and design patterns**
 
-[![MIT License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
+[Features](#-features) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Commands](#-commands) • [Documentation](#-documentation)
 
 </div>
 
 ---
 
-## 🗺️ Table of Contents
-
-- [📦 Quick Start](#-quick-start)
-- [🏗️ Architecture](#️-architecture)
-- [🚀 Technology Stack](#-technology-stack)
-- [🎮 Features](#-features)
-- [💻 Commands](#-commands)
-- [🛠️ Development](#️-development)
-- [🧪 Testing](#-testing)
-- [📚 Design Patterns](#-design-patterns)
-- [🎯 SOLID Principles](#-solid-principles)
-- [📖 Documentation](#-documentation)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
-
----
-
 ## 📦 Quick Start
 
-### Prerequisites
-
-- **Java 25 LTS** or higher
-- **Maven 3.6+**
-
-### 🚀 One-Command Setup
-
 ```bash
-# Clone the repository
+# Clone and build
 git clone https://github.com/waqas1412/task-manager.git
 cd task-manager
-
-# Build the project
 mvn clean package
-```
 
-**That's it!** 🎉 The application will:
-- ✅ Compile all Java 25 source files
-- ✅ Run 31 unit tests
-- ✅ Generate executable JAR file
-- ✅ Create data directory for persistence
-
-### 🌐 Running the Application
-
-```bash
-# Run the JAR file
+# Run
 java -jar target/task-manager-1.0.0.jar
-
-# Or use Maven
-mvn exec:java -Dexec.mainClass="com.taskmanager.Main"
 ```
 
-### 🎯 First Steps
+## ✨ Features
 
-```
-task-manager> help              # View all available commands
-task-manager> create            # Create your first task
-task-manager> list              # View all tasks
-task-manager> stats             # See task statistics
-```
-
----
+| Category | Features |
+|----------|----------|
+| **Task Management** | Create, update, delete tasks with priorities (LOW → CRITICAL) and due dates |
+| **Organization** | 5 default categories (Work, Personal, Shopping, Health, Learning) + custom categories |
+| **Search & Filter** | Keyword search, filter by status/priority/category, overdue detection |
+| **Sorting** | By priority, due date, creation date, or title (ascending/descending) |
+| **Statistics** | Task counts, completion rate, status distribution |
+| **Persistence** | JSON-based storage with auto-save |
 
 ## 🏗️ Architecture
 
-### Clean Architecture Design
+<table>
+<tr>
+<td width="50%">
+
+### Layer Structure
 
 ```
-┌─────────────────────────────────────┐
-│         CLI Interface Layer         │  ← User interaction
-│    (Commands, Input Validation)     │
-└─────────────────────────────────────┘
-                  ↓
-┌─────────────────────────────────────┐
-│         Service Layer               │  ← Business logic
-│  (TaskService, CategoryService)     │
-└─────────────────────────────────────┘
-                  ↓
-┌─────────────────────────────────────┐
-│       Repository Layer              │  ← Data access
-│    (TaskRepository, etc.)           │
-└─────────────────────────────────────┘
-                  ↓
-┌─────────────────────────────────────┐
-│         Domain Model                │  ← Core entities
-│   (Task, Category, Priority)        │
-└─────────────────────────────────────┘
+┌─────────────────────┐
+│    CLI Layer        │ Commands & Display
+├─────────────────────┤
+│  Service Layer      │ Business Logic
+├─────────────────────┤
+│ Repository Layer    │ Data Access
+├─────────────────────┤
+│   Domain Model      │ Core Entities
+└─────────────────────┘
 ```
 
-### 🎯 Layer Responsibilities
+</td>
+<td width="50%">
 
-| Layer | Responsibility | Key Components |
-|-------|----------------|----------------|
-| **CLI Layer** | User interaction, command parsing | CommandHandler, OutputFormatter |
-| **Service Layer** | Business logic, orchestration | TaskService, CategoryService, SearchService |
-| **Repository Layer** | Data persistence, caching | JsonTaskRepository, JsonCategoryRepository |
-| **Domain Layer** | Core business entities | Task, Category, Priority, Status |
+### Components
 
----
+| Layer | Classes |
+|-------|---------|
+| **CLI** | CommandHandler, OutputFormatter |
+| **Service** | TaskService, CategoryService, SearchService |
+| **Repository** | JsonTaskRepository, JsonCategoryRepository |
+| **Domain** | Task, Category, Priority, Status |
+
+</td>
+</tr>
+</table>
 
 ## 🚀 Technology Stack
 
-### Core Technologies
-
-$${\color{#AC3097}Java \space \color{#56565E}25 \space LTS}$$
-
-- **Latest LTS** with modern language features
-- **Records** for immutable data classes
-- **Enhanced switch** expressions
-- **Text blocks** for multi-line strings
-- **Pattern matching** capabilities
-
-$${\color{#AC3097}Maven \space \color{#56565E}3.6+}$$
-
-- **Dependency management** with minimal dependencies
-- **Build automation** with lifecycle phases
-- **Testing integration** with JUnit 5
-- **JAR packaging** with manifest configuration
-
-### Libraries & Frameworks
-
-$${\color{#AC3097}Gson \space \color{#56565E}2.11.0}$$
-
-- **JSON serialization** for data persistence
-- **Custom type adapters** for LocalDateTime
-- **Pretty printing** for readable JSON files
-
-$${\color{#AC3097}JUnit \space \color{#56565E}5.11.0}$$
-
-- **Modern testing** framework
-- **Parameterized tests** for multiple scenarios
-- **Descriptive test names** with @DisplayName
-- **Comprehensive assertions** for validation
-
-### Development Tools
-
-$${\color{#AC3097}Development \space \color{#56565E}Tools}$$
-
-- **Java 25 Compiler** with preview features
-- **Maven Surefire** for test execution
-- **Git** for version control
-- **JSON** for data storage
-
----
-
-## 🎮 Features
-
-### 🔧 Task Management
-
-$${\color{#AC3097}Task \space \color{#56565E}CRUD \space Operations}$$
-
-- **Create** tasks with title, description, priority, and due date
-- **Read** task information with filtering and sorting
-- **Update** task status, priority, and details
-- **Delete** tasks with confirmation
-
-$${\color{#AC3097}Task \space \color{#56565E}Properties}$$
-
-- **Priorities**: LOW, MEDIUM, HIGH, CRITICAL
-- **Statuses**: TODO, IN_PROGRESS, DONE, CANCELLED
-- **Due Dates**: With overdue detection
-- **Categories**: Organize tasks by category
-- **Timestamps**: Creation and update tracking
-
-### 📊 Advanced Features
-
-$${\color{#AC3097}Search \space \color{#56565E}& \space Filter}$$
-
-- **Keyword search** in title and description
-- **Filter by status** (TODO, IN_PROGRESS, DONE)
-- **Filter by priority** (LOW to CRITICAL)
-- **Filter by category** and date range
-- **Overdue detection** and alerts
-
-$${\color{#AC3097}Sorting \space \color{#56565E}Strategies}$$
-
-- **Priority sorting** (ascending/descending)
-- **Due date sorting** (ascending/descending)
-- **Creation date** sorting
-- **Title** alphabetical sorting
-
-### 📁 Category System
-
-$${\color{#AC3097}Category \space \color{#56565E}Management}$$
-
-- **Default categories**: Work, Personal, Shopping, Health, Learning
-- **Custom categories** with name, description, and color
-- **Category assignment** to tasks
-- **Category-based filtering**
-
-### 📈 Statistics & Analytics
-
-$${\color{#AC3097}Task \space \color{#56565E}Statistics}$$
-
-- **Total tasks** count
-- **Status distribution** (TODO, IN_PROGRESS, DONE)
-- **Overdue tasks** tracking
-- **Completion rate** percentage
-
----
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **Java** | 25 LTS | Core language with modern features (Records, Switch expressions, Text blocks) |
+| **Maven** | 3.6+ | Build automation and dependency management |
+| **Gson** | 2.11.0 | JSON serialization for data persistence |
+| **JUnit 5** | 5.11.0 | Unit testing framework (31 tests, 100% pass rate) |
 
 ## 💻 Commands
 
-### 🔐 Task Management Commands
+<table>
+<tr>
+<td width="50%">
 
-$${\color{#AC3097}Task \space \color{#56565E}Operations}$$
-
+### Task Operations
 ```bash
-create, add, new          # Create a new task
-list [filter]             # List all tasks or filter by: todo, progress, done, overdue, high
-update, edit              # Update an existing task
-delete, remove, rm        # Delete a task
-complete, done            # Mark a task as completed
-search <keyword>          # Search tasks by keyword
+create, add          # Create task
+list [filter]        # List tasks
+  ├─ todo           # TODO tasks
+  ├─ progress       # In progress
+  ├─ done           # Completed
+  ├─ overdue        # Overdue tasks
+  └─ high           # High priority
+update, edit         # Update task
+delete, rm           # Delete task
+complete, done       # Mark as done
+search <keyword>     # Search tasks
 ```
 
-### 📱 Category Management
+</td>
+<td width="50%">
 
-$${\color{#AC3097}Category \space \color{#56565E}Operations}$$
-
+### Other Commands
 ```bash
-category list             # List all categories
-category create           # Create a new category
+category list        # List categories
+category create      # New category
+stats                # Statistics
+help                 # Show help
+exit, quit           # Exit app
 ```
 
-### 📊 Analytics
-
-$${\color{#AC3097}Statistics \space \color{#56565E}& \space Info}$$
-
-```bash
-stats, statistics         # Show task statistics
-help, ?                   # Show help message
-exit, quit, q             # Exit the application
-```
-
-### 🎯 Example Session
-
+### Example
 ```
 task-manager> create
-Title: Implement user authentication
-Description: Add JWT-based authentication to the API
+Title: Fix bug #123
 Priority: HIGH
 Category: Work
-Due date: 2025-10-25 17:00
-✓ Task created successfully!
+✓ Task created!
 
 task-manager> list
-╔════════════════════════════════════════════════════════════════════════════╗
-  All Tasks (1 tasks)
-╔════════════════════════════════════════════════════════════════════════════╗
-  #    Title                          Status       Priority   Due Date
-────────────────────────────────────────────────────────────────────────────
-  1    Implement user authentication  ○ To Do      ↑ High     2025-10-25 17:00
-╔════════════════════════════════════════════════════════════════════════════╗
-
-task-manager> stats
-╔════════════════════════════════════════════════════════════════════════════╗
-  Task Statistics
-╔════════════════════════════════════════════════════════════════════════════╗
-  Total Tasks:      1
-  TODO:             1
-  In Progress:      0
-  Done:             0
-  Overdue:          0
-  Completion Rate:  0.0%
-╔════════════════════════════════════════════════════════════════════════════╗
+#  Title         Status    Priority
+1  Fix bug #123  ○ To Do   ↑ High
 ```
 
----
+</td>
+</tr>
+</table>
 
-## 🛠️ Development
+## 📊 Design Patterns & Principles
 
-### 📋 Prerequisites
+<table>
+<tr>
+<td width="50%">
 
-- **Java 25 LTS** or higher
-- **Maven 3.6+**
-- **Git** for version control
+### Design Patterns (7)
 
-### 🚀 Local Development Setup
+| Pattern | Implementation |
+|---------|----------------|
+| **Repository** | Data access abstraction |
+| **Service Layer** | Business logic separation |
+| **Builder** | Task construction |
+| **Strategy** | Sorting algorithms |
+| **Singleton** | Repository instances |
+| **Command** | CLI command handling |
+| **Factory** | Object creation |
 
-$${\color{#AC3097}Clone \space \color{#56565E}Repository}$$
+</td>
+<td width="50%">
 
-```bash
-# Clone repository
-git clone https://github.com/waqas1412/task-manager.git
-cd task-manager
-```
+### SOLID Principles
 
-$${\color{#AC3097}Build \space \color{#56565E}Project}$$
+| Principle | Application |
+|-----------|-------------|
+| **S**ingle Responsibility | Each class has one purpose |
+| **O**pen/Closed | Extensible via interfaces |
+| **L**iskov Substitution | Repository interchangeability |
+| **I**nterface Segregation | Focused interfaces |
+| **D**ependency Inversion | Depend on abstractions |
 
-```bash
-# Clean and compile
-mvn clean compile
+</td>
+</tr>
+</table>
 
-# Run tests
-mvn test
+## 🎯 Java 25 Features
 
-# Package JAR
-mvn package
-
-# Skip tests during packaging
-mvn package -DskipTests
-```
-
-### 🎮 Running the Application
-
-$${\color{#AC3097}Development \space \color{#56565E}Mode}$$
-
-```bash
-# Run with Maven
-mvn exec:java -Dexec.mainClass="com.taskmanager.Main"
-
-# Run JAR file
-java -jar target/task-manager-1.0.0.jar
-
-# Run with preview features (if needed)
-java --enable-preview -jar target/task-manager-1.0.0.jar
-```
-
-### 📁 Project Structure
-
-```
-task-manager/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/taskmanager/
-│   │   │       ├── cli/                  # Command-line interface
-│   │   │       │   ├── CommandHandler.java
-│   │   │       │   └── OutputFormatter.java
-│   │   │       ├── domain/               # Domain model
-│   │   │       │   ├── Task.java
-│   │   │       │   ├── Category.java
-│   │   │       │   ├── Priority.java
-│   │   │       │   ├── Status.java
-│   │   │       │   └── exception/
-│   │   │       ├── repository/           # Data access layer
-│   │   │       │   ├── TaskRepository.java
-│   │   │       │   ├── CategoryRepository.java
-│   │   │       │   └── impl/
-│   │   │       ├── service/              # Business logic layer
-│   │   │       │   ├── TaskService.java
-│   │   │       │   ├── CategoryService.java
-│   │   │       │   └── SearchService.java
-│   │   │       ├── util/                 # Utilities
-│   │   │       │   ├── JsonUtil.java
-│   │   │       │   └── DateUtil.java
-│   │   │       └── Main.java
-│   │   └── resources/
-│   └── test/
-│       └── java/
-│           └── com/taskmanager/          # Unit tests
-│               ├── TaskTest.java
-│               ├── PriorityTest.java
-│               └── StatusTest.java
-├── data/                                  # JSON data storage
-│   ├── tasks.json
-│   └── categories.json
-├── pom.xml                                # Maven configuration
-└── README.md
-```
-
----
+| Feature | Usage | Example |
+|---------|-------|---------|
+| **Records** | Immutable DTOs | `record Category(String id, String name, ...)` |
+| **Enhanced Switch** | Pattern matching | `switch (status) { case TODO -> ...; }` |
+| **Text Blocks** | Multi-line strings | `"""Welcome Banner"""` |
+| **Stream API** | Functional operations | `tasks.stream().filter(...).collect(...)` |
+| **Builder Pattern** | Flexible construction | `new Task.Builder().title("...").build()` |
 
 ## 🧪 Testing
 
-### 🎯 Test Commands
+```bash
+mvn test                    # Run all tests
+mvn test -Dtest=TaskTest   # Run specific test
+```
 
-$${\color{#AC3097}Run \space \color{#56565E}Tests}$$
+| Metric | Value |
+|--------|-------|
+| **Total Tests** | 31 |
+| **Test Classes** | 3 (TaskTest, PriorityTest, StatusTest) |
+| **Pass Rate** | 100% |
+| **Coverage** | Domain model + Business logic |
+
+**Test Types**: Unit tests, Parameterized tests, Validation tests, State transition tests
+
+## 📁 Project Structure
+
+```
+task-manager/
+├── src/main/java/com/taskmanager/
+│   ├── cli/                    # CommandHandler, OutputFormatter
+│   ├── domain/                 # Task, Category, Priority, Status
+│   │   └── exception/          # Custom exceptions
+│   ├── repository/             # TaskRepository, CategoryRepository
+│   │   └── impl/               # JSON implementations
+│   ├── service/                # TaskService, CategoryService, SearchService
+│   ├── util/                   # JsonUtil, DateUtil
+│   └── Main.java
+├── src/test/java/              # Unit tests
+├── data/                       # JSON storage (tasks.json, categories.json)
+└── pom.xml                     # Maven configuration
+```
+
+## 🛠️ Development
+
+### Build & Run
 
 ```bash
-# Run all tests
+# Compile
+mvn clean compile
+
+# Test
 mvn test
 
-# Run specific test class
-mvn test -Dtest=TaskTest
+# Package
+mvn package
 
-# Run tests with coverage
-mvn test jacoco:report
-
-# Run tests in verbose mode
-mvn test -X
+# Run
+java -jar target/task-manager-1.0.0.jar
+# OR
+mvn exec:java -Dexec.mainClass="com.taskmanager.Main"
 ```
 
-### 📋 Test Coverage
+### Code Quality
 
-$${\color{#AC3097}Test \space \color{#56565E}Statistics}$$
+| Aspect | Implementation |
+|--------|----------------|
+| **Immutability** | Domain objects use immutable design with copy methods |
+| **Validation** | Input validation at multiple layers |
+| **Error Handling** | Custom exceptions with meaningful messages |
+| **Documentation** | Comprehensive JavaDoc comments |
+| **Naming** | Descriptive, intention-revealing names |
+| **DRY** | No code duplication |
 
-- **Total Tests**: 31 unit tests
-- **Test Classes**: 3 (TaskTest, PriorityTest, StatusTest)
-- **Pass Rate**: 100%
-- **Coverage**: Domain model and business logic
+## 📚 Documentation
 
-$${\color{#AC3097}Test \space \color{#56565E}Types}$$
+### Key Highlights
 
-- **Unit Tests**: Individual component testing
-- **Parameterized Tests**: Multiple scenario testing
-- **Validation Tests**: Input validation testing
-- **State Transition Tests**: Status change validation
+<table>
+<tr>
+<td width="33%">
 
-### 🎯 Example Tests
+**Architecture**
+- Clean layered design
+- Clear separation of concerns
+- Dependency inversion
+- Interface-based contracts
 
-```java
-@Test
-@DisplayName("Should create task with builder")
-void shouldCreateTaskWithBuilder() {
-    Task task = new Task.Builder()
-        .title("Test Task")
-        .description("Test Description")
-        .priority(Priority.HIGH)
-        .build();
+</td>
+<td width="33%">
 
-    assertNotNull(task);
-    assertEquals("Test Task", task.getTitle());
-    assertEquals(Priority.HIGH, task.getPriority());
-}
+**Best Practices**
+- SOLID principles
+- Design patterns
+- Immutable objects
+- Comprehensive testing
 
-@ParameterizedTest
-@CsvSource({
-    "LOW, LOW",
-    "MEDIUM, MEDIUM",
-    "HIGH, HIGH",
-    "CRITICAL, CRITICAL"
-})
-@DisplayName("Should parse priority from string")
-void shouldParsePriorityFromString(String input, Priority expected) {
-    assertEquals(expected, Priority.fromString(input));
-}
-```
+</td>
+<td width="33%">
 
----
+**Modern Java**
+- Java 25 LTS features
+- Records & sealed types
+- Enhanced switch
+- Stream API mastery
 
-## 📚 Design Patterns
+</td>
+</tr>
+</table>
 
-### 🎨 Implemented Patterns
+### Learning Outcomes
 
-$${\color{#AC3097}Repository \space \color{#56565E}Pattern}$$
+This project demonstrates proficiency in:
 
-- **Purpose**: Abstract data access layer
-- **Implementation**: TaskRepository, CategoryRepository interfaces
-- **Benefits**: Testability, flexibility, separation of concerns
+✅ Modern Java 25 LTS development  
+✅ Clean architecture and layered design  
+✅ Design pattern implementation (7 patterns)  
+✅ SOLID principles application (all 5)  
+✅ Unit testing with JUnit 5  
+✅ Build automation with Maven  
+✅ Version control (50 incremental commits)  
+✅ Professional documentation  
 
-$${\color{#AC3097}Service \space \color{#56565E}Layer \space Pattern}$$
+## 📈 Project Stats
 
-- **Purpose**: Encapsulate business logic
-- **Implementation**: TaskService, CategoryService, SearchService
-- **Benefits**: Single responsibility, reusability
-
-$${\color{#AC3097}Builder \space \color{#56565E}Pattern}$$
-
-- **Purpose**: Flexible object construction
-- **Implementation**: Task.Builder
-- **Benefits**: Immutability, validation, readability
-
-$${\color{#AC3097}Strategy \space \color{#56565E}Pattern}$$
-
-- **Purpose**: Pluggable algorithms
-- **Implementation**: SortStrategy enum
-- **Benefits**: Open/closed principle, flexibility
-
-$${\color{#AC3097}Singleton \space \color{#56565E}Pattern}$$
-
-- **Purpose**: Single instance management
-- **Implementation**: Repository instances
-- **Benefits**: Resource management, consistency
-
-$${\color{#AC3097}Command \space \color{#56565E}Pattern}$$
-
-- **Purpose**: Encapsulate requests
-- **Implementation**: CLI command handling
-- **Benefits**: Extensibility, undo/redo support
-
-$${\color{#AC3097}Factory \space \color{#56565E}Pattern}$$
-
-- **Purpose**: Object creation abstraction
-- **Implementation**: Category.create(), Task.Builder
-- **Benefits**: Encapsulation, validation
-
----
-
-## 🎯 SOLID Principles
-
-### 📐 Principle Applications
-
-$${\color{#AC3097}Single \space \color{#56565E}Responsibility \space Principle}$$
-
-- **Each class has one reason to change**
-- OutputFormatter only handles formatting
-- Services handle specific business logic
-- Repositories only manage data access
-
-$${\color{#AC3097}Open/Closed \space \color{#56565E}Principle}$$
-
-- **Open for extension, closed for modification**
-- New repository implementations can be added
-- New sorting strategies via enum
-- New commands without changing existing code
-
-$${\color{#AC3097}Liskov \space \color{#56565E}Substitution \space Principle}$$
-
-- **Subtypes must be substitutable for base types**
-- Repository implementations are interchangeable
-- Service layer depends on interfaces
-- Polymorphic behavior maintained
-
-$${\color{#AC3097}Interface \space \color{#56565E}Segregation \space Principle}$$
-
-- **Clients shouldn't depend on unused methods**
-- Focused, minimal interfaces
-- TaskRepository and CategoryRepository are separate
-- No fat interfaces
-
-$${\color{#AC3097}Dependency \space \color{#56565E}Inversion \space Principle}$$
-
-- **Depend on abstractions, not concretions**
-- Services depend on repository interfaces
-- High-level modules independent of low-level
-- Dependency injection support
-
----
-
-## 📖 Documentation
-
-### 📚 Java 25 Features Demonstrated
-
-$${\color{#AC3097}Records \space \color{#56565E}(Java \space 14+)}$$
-
-```java
-public record Category(
-    String id,
-    String name,
-    String description,
-    String color
-) {
-    // Compact constructor for validation
-    public Category {
-        Objects.requireNonNull(name, "Name cannot be null");
-    }
-}
-```
-
-$${\color{#AC3097}Enhanced \space \color{#56565E}Switch \space Expressions}$$
-
-```java
-public static Priority fromString(String value) {
-    return switch (value.toUpperCase()) {
-        case "LOW", "L", "1" -> LOW;
-        case "MEDIUM", "M", "2" -> MEDIUM;
-        case "HIGH", "H", "3" -> HIGH;
-        case "CRITICAL", "C", "4" -> CRITICAL;
-        default -> throw new IllegalArgumentException("Invalid priority");
-    };
-}
-```
-
-$${\color{#AC3097}Text \space \color{#56565E}Blocks}$$
-
-```java
-private static final String BANNER = """
-    ╔════════════════════════════════════════╗
-    ║        TASK MANAGER v1.0.0             ║
-    ║   A Modern Java 25 LTS Application     ║
-    ╚════════════════════════════════════════╝
-    """;
-```
-
-$${\color{#AC3097}Stream \space \color{#56565E}API}$$
-
-```java
-public List<Task> searchByKeyword(String keyword) {
-    return taskRepository.findAll().stream()
-        .filter(task -> 
-            task.getTitle().toLowerCase().contains(keyword) ||
-            task.getDescription().toLowerCase().contains(keyword)
-        )
-        .collect(Collectors.toList());
-}
-```
-
-### 🎯 Key Learning Demonstrations
-
-This project showcases:
-
-1. **Modern Java Development**: Java 25 LTS features
-2. **Clean Architecture**: Layered design with clear boundaries
-3. **Design Patterns**: 7 GoF patterns implemented
-4. **SOLID Principles**: All 5 principles applied
-5. **Testing**: Comprehensive unit tests with JUnit 5
-6. **Build Tools**: Maven dependency and lifecycle management
-7. **Version Control**: 50 incremental commits
-8. **Documentation**: JavaDoc and README
-9. **Code Quality**: Clean, readable, maintainable
-10. **Best Practices**: Industry-standard development
-
----
+| Metric | Value |
+|--------|-------|
+| **Lines of Code** | ~2,000+ |
+| **Java Files** | 19 source + 3 test |
+| **Commits** | 50 (Sept 1 - Oct 20, 2025) |
+| **Dependencies** | Minimal (Gson, JUnit 5) |
+| **Test Coverage** | 31 tests, 100% pass |
+| **Java Version** | 25.0.1 LTS |
 
 ## 🤝 Contributing
 
-### 🚀 How to Contribute
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-### 📋 Development Guidelines
-
-- Follow **Java** coding conventions
-- Write **comprehensive tests**
-- Update **documentation**
-- Follow **conventional commits**
-- Ensure **code quality** with proper formatting
-
-### 🐛 Bug Reports
-
-Please use the [GitHub Issues](https://github.com/waqas1412/task-manager/issues) to report bugs.
-
----
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-
-## 👤 Author
-
-**waqas1412**
 
 <div align="center">
 
-**Built with ❤️ using Java 25 LTS, Maven, and best practices**
+**Built with ❤️ using Java 25 LTS**
 
-[![GitHub](https://img.shields.io/badge/GitHub-waqas1412-black?style=for-the-badge&logo=github)](https://github.com/waqas1412)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/waqas1412)
+[![GitHub](https://img.shields.io/badge/GitHub-waqas1412-181717?style=flat-square&logo=github)](https://github.com/waqas1412)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=flat-square&logo=linkedin)](https://linkedin.com/in/waqas1412)
 
----
-
-⭐ **Star this repository if you found it helpful!**
+⭐ Star this repo if you find it helpful!
 
 </div>
 
